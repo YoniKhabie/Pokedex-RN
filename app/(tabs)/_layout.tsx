@@ -1,45 +1,62 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import { Image, StyleSheet } from "react-native";
+import Toast from "react-native-toast-message";
+import PokemonProvider from "../context/PokemonContext";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const detailsIcon = require("@/assets/icons/pokeball.png");
+const movesIcon = require("@/assets/icons/moves.png");
+const cameraIcon = require("@/assets/icons/camera.png");
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+    return (
+        <PokemonProvider>
+            <Tabs
+                screenOptions={{
+                    tabBarStyle: styles.tabBarStyle,
+                    tabBarLabelStyle: styles.tabBarLabelStyle,
+                }}
+            >
+                <Tabs.Screen
+                    name="index"
+                    options={{
+                        title: "Pokemon details",
+                        tabBarIcon: () => <Image source={detailsIcon} style={styles.image} />,
+                    }}
+                />
+                <Tabs.Screen
+                    name="moves"
+                    options={{
+                        title: "Pokemon moves",
+                        tabBarIcon: () => <Image source={movesIcon} style={styles.image} />,
+                    }}
+                />
+                <Tabs.Screen
+                    name="search"
+                    options={{
+                        title: "Pokemon search",
+                        tabBarIcon: () => <Image source={cameraIcon} style={styles.image} />,
+                    }}
+                />
+            </Tabs>
+            <Toast />
+        </PokemonProvider>
+    );
 }
+
+const styles = StyleSheet.create({
+    image: {
+        marginBottom: 10,
+        width: 32,
+        height: 32,
+        marginTop: 10,
+    },
+    tabBarStyle: {
+        height: 80, // Increase tab bar height
+        paddingBottom: 20, // Adjust padding
+        paddingTop: 10, // Adjust padding
+    },
+    tabBarLabelStyle: {
+        marginTop: 10,
+        fontSize: 10, // Increase label font size
+    },
+});
