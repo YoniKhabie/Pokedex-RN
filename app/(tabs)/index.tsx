@@ -8,7 +8,10 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, TextInput, TouchableO
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { usePokemonContext } from "../context/PokemonContext";
-
+function capitalizeFirstLetter(str: string) {
+    if (str.length === 0) return str; // Handle empty string
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 const PokemonScreen: React.FC = () => {
     const [input, setInput] = useState<string>("");
     const { pokemon, loading, setName } = usePokemonContext();
@@ -41,7 +44,7 @@ const PokemonScreen: React.FC = () => {
         <GestureHandlerRootView>
             <ScrollView>
                 <ThemedView style={styles.container}>
-                    <ThemedText style={styles.title}>{pokemon.name}</ThemedText>
+                    <ThemedText style={styles.title}>{capitalizeFirstLetter(pokemon.name)}</ThemedText>
                     <Image source={{ uri: pokemon.img }} style={{ width: 400, height: 400 }} />
                     <ThemedText>ID: {pokemon.id}</ThemedText>
                     <ThemedText>Weight: {pokemon.weight}</ThemedText>

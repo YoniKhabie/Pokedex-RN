@@ -20,13 +20,9 @@ export const getPokemonByName = async (name: string) => {
             weight: json.weight,
             img: json.sprites.front_default,
         };
-        // console.log(pokemonConfig.stats);
 
         return pokemonConfig;
     } catch (error) {
-        // console.error(error);
         return null;
     }
 };
-
-// getPokemonByName("mew")

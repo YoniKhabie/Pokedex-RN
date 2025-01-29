@@ -32,9 +32,6 @@ const PokemonSearch = () => {
             const prompt = "In one word who is that pokemon?";
             const imagePart = fileToGenerativePart(base64Image);
             const result = await model.generateContent([prompt, imagePart]);
-            // const chosenLogProb = result.response.candidates?.[0]?.avgLogprobs;
-
-            // console.log("@@@@ => ", chosenLogProb);
             const pokemonName = result.response.text();
             const pokemon = await getPokemonByName(pokemonName);
             console.log("pokemon", pokemon?.name);
