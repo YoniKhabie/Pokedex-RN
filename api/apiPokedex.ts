@@ -1,4 +1,5 @@
 import { PokemonConfig } from "@/models/modalPokemon";
+import { UtilitiesPokemon } from "@/utils/utilsPokemon";
 
 export const getPokemonByName = async (name: string) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
@@ -19,6 +20,7 @@ export const getPokemonByName = async (name: string) => {
             types: json.types,
             weight: json.weight,
             img: json.sprites.front_default,
+            total_power: UtilitiesPokemon.GetTotalPower(json.stats),
         };
 
         return pokemonConfig;

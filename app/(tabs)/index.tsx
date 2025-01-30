@@ -1,6 +1,7 @@
 import { Column, Row } from "@/components/Table";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { StatColor, TotalPowerColor } from "@/constants/Colors";
 import { Link } from "expo-router";
 import * as React from "react";
 import { useState } from "react";
@@ -15,6 +16,7 @@ function capitalizeFirstLetter(str: string) {
 const PokemonScreen: React.FC = () => {
     const [input, setInput] = useState<string>("");
     const { pokemon, loading, setName } = usePokemonContext();
+
     const showtoast = () => {
         Toast.show({
             type: "error",
@@ -48,7 +50,17 @@ const PokemonScreen: React.FC = () => {
                     <Image source={{ uri: pokemon.img }} style={{ width: 400, height: 400 }} />
                     <ThemedText>ID: {pokemon.id}</ThemedText>
                     <ThemedText>Weight: {pokemon.weight}</ThemedText>
-                    <ThemedText>Base Experience: {pokemon.base_experience}</ThemedText>
+                    <Row>
+                        <ThemedText>Total Power: </ThemedText>
+                        <ThemedText style={{ color: TotalPowerColor(pokemon.total_power) }}>
+                            {pokemon.total_power}
+                        </ThemedText>
+                    </Row>
+                    {pokemon.types.map((typeObj, index) => (
+                        <ThemedText key={index}>
+                            Type #{index + 1}: {capitalizeFirstLetter(typeObj.type.name)}
+                        </ThemedText>
+                    ))}
 
                     <ThemedView style={{ padding: 20 }}>
                         <TextInput
@@ -68,9 +80,13 @@ const PokemonScreen: React.FC = () => {
                             {pokemon.stats.map((stat, index) => (
                                 <Row key={index} style={styles.row}>
                                     <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
-                                        {stat.stat.name}
+                                        {capitalizeFirstLetter(stat.stat.name)}
                                     </ThemedText>
-                                    <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
+                                    <ThemedText
+                                        style={[styles.box, { color: StatColor(stat.base_stat) }]}
+                                        numberOfLines={1}
+                                        adjustsFontSizeToFit
+                                    >
                                         {stat.base_stat}
                                     </ThemedText>
                                 </Row>

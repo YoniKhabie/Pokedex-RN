@@ -10,7 +10,7 @@ import Toast from "react-native-toast-message";
 import { usePokemonContext } from "../context/PokemonContext";
 
 // Initialize Google AI model once (avoids re-creating on every render)
-const genAI = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GOOGLE_API);
+const genAI = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GOOGLE_API!);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const fileToGenerativePart = (base64Image: string, mimeType = "image/jpg") => ({
