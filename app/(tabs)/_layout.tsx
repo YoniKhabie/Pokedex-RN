@@ -1,4 +1,5 @@
 import { Tabs } from "expo-router";
+import React from "react";
 import { Image, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 import PokemonProvider from "../context/PokemonContext";

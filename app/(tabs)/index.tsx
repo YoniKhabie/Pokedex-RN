@@ -17,16 +17,16 @@ const PokemonScreen: React.FC = () => {
     const [input, setInput] = useState<string>("");
     const { pokemon, loading, setName } = usePokemonContext();
 
-    const showtoast = () => {
+    const showtoast = (message: string) => {
         Toast.show({
             type: "error",
             text1: "Oops...",
-            text2: "Please enter a pokemon",
+            text2: message,
         });
     };
     const handleSumbit = () => {
         if (input.length === 0) {
-            showtoast();
+            showtoast("Please enter a pokemon");
             return;
         }
         setName(input.toLowerCase().replace(/\s/g, ""));
@@ -34,13 +34,35 @@ const PokemonScreen: React.FC = () => {
 
     if (loading) {
         return (
-            <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
-                <ActivityIndicator size="large" color="#0000ff" />
+            <ThemedView style={{ marginLeft: "auto", marginRight: "auto" }}>
+                <ThemedText>No Pokemon Found</ThemedText>
+                <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </ThemedView>
             </ThemedView>
         );
     }
     if (!pokemon) {
-        return null;
+        return (
+            <>
+                <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <ThemedText style={{ padding: 30 }}>No Pokemon Found</ThemedText>
+                    <ThemedView>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Search for a pokemon"
+                            defaultValue={input}
+                            onChangeText={(newInput) => setInput(newInput)}
+                        />
+                    </ThemedView>
+                    <Link href={{ pathname: "/", params: { name: input } }} style={{ padding: 30 }}>
+                        <TouchableOpacity style={styles.button} onPress={() => handleSumbit()}>
+                            <ThemedText style={styles.buttonText}>Submit</ThemedText>
+                        </TouchableOpacity>
+                    </Link>
+                </ThemedView>
+            </>
+        );
     }
     return (
         <GestureHandlerRootView>

@@ -4,7 +4,7 @@ import { Row } from "@/components/Table";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { CameraCapturedPicture } from "expo-camera";
 import * as FileSystem from "expo-file-system";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { usePokemonContext } from "../context/PokemonContext";

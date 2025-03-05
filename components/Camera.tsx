@@ -1,5 +1,5 @@
 import { CameraCapturedPicture, CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface CameraProps {
