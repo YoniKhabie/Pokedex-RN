@@ -48,3 +48,28 @@ export const StatColor = (num: number) => {
         return "red";
     }
 };
+
+const typeColors: Record<string, string> = {
+    normal: "rgba(61, 61, 61, 0.3)",
+    fire: "rgba(255, 69, 0, 0.3)",
+    water: "rgba(30, 144, 255, 0.3)",
+    electric: "rgba(255, 215, 0, 0.3)",
+    grass: "rgba(34, 139, 34, 0.3)",
+    ice: "rgba(173, 216, 230, 0.3)",
+    fighting: "rgba(178, 34, 34, 0.3)",
+    poison: "rgba(128, 0, 128, 0.3)",
+    ground: "rgba(210, 180, 140, 0.3)",
+    flying: "rgba(135, 206, 250, 0.3)",
+    psychic: "rgba(255, 20, 147, 0.3)",
+    bug: "rgba(154, 205, 50, 0.3)",
+    rock: "rgba(139, 69, 19, 0.3)",
+    ghost: "rgba(72, 61, 139, 0.3)",
+    dragon: "rgba(75, 0, 130, 0.3)",
+    dark: "rgba(47, 79, 79, 0.3)",
+    steel: "rgba(192, 192, 192, 0.3)",
+    fairy: "rgba(255, 182, 193, 0.3)",
+};
+
+export const GetTypeColor = (type: string): string => {
+    return typeColors[type.toLowerCase()] || "rgba(0, 0, 0, 0.3)";
+};

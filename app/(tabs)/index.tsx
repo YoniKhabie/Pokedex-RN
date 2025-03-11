@@ -1,7 +1,9 @@
+import PokemonType from "@/components/PokemonType";
 import { Column, Row } from "@/components/Table";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { StatColor, TotalPowerColor } from "@/constants/Colors";
+import { capitalizeFirstLetter } from "@/utils/helpers";
 import { Link } from "expo-router";
 import * as React from "react";
 import { useState } from "react";
@@ -9,10 +11,7 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, TextInput, TouchableO
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { usePokemonContext } from "../context/PokemonContext";
-function capitalizeFirstLetter(str: string) {
-    if (str.length === 0) return str; // Handle empty string
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
+
 const PokemonScreen: React.FC = () => {
     const [input, setInput] = useState<string>("");
     const { pokemon, loading, setName } = usePokemonContext();
@@ -34,8 +33,7 @@ const PokemonScreen: React.FC = () => {
 
     if (loading) {
         return (
-            <ThemedView style={{ marginLeft: "auto", marginRight: "auto" }}>
-                <ThemedText>No Pokemon Found</ThemedText>
+            <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </ThemedView>
@@ -64,6 +62,7 @@ const PokemonScreen: React.FC = () => {
             </>
         );
     }
+
     return (
         <GestureHandlerRootView>
             <ScrollView>
@@ -78,11 +77,13 @@ const PokemonScreen: React.FC = () => {
                             {pokemon.total_power}
                         </ThemedText>
                     </Row>
-                    {pokemon.types.map((typeObj, index) => (
-                        <ThemedText key={index}>
-                            Type #{index + 1}: {capitalizeFirstLetter(typeObj.type.name)}
-                        </ThemedText>
-                    ))}
+                    <Row style={{ marginTop: 5 }}>
+                        {pokemon.types.map((typeObj, index) => (
+                            <Row style={{ paddingHorizontal: 10 }} key={index}>
+                                <PokemonType typeName={capitalizeFirstLetter(typeObj.type.name)} />
+                            </Row>
+                        ))}
+                    </Row>
 
                     <ThemedView style={{ padding: 20 }}>
                         <TextInput
@@ -97,6 +98,7 @@ const PokemonScreen: React.FC = () => {
                             <ThemedText style={styles.buttonText}>Submit</ThemedText>
                         </TouchableOpacity>
                     </Link>
+                    <ThemedText style={[styles.title, { marginTop: 10 }]}>Stats</ThemedText>
                     <ThemedView style={{ marginLeft: "auto", marginRight: "auto" }}>
                         <Column style={styles.column}>
                             {pokemon.stats.map((stat, index) => (
@@ -110,6 +112,21 @@ const PokemonScreen: React.FC = () => {
                                         adjustsFontSizeToFit
                                     >
                                         {stat.base_stat}
+                                    </ThemedText>
+                                </Row>
+                            ))}
+                        </Column>
+                    </ThemedView>
+                    <ThemedText style={[styles.title, { marginTop: 30 }]}>Abilities</ThemedText>
+                    <ThemedView style={{ marginLeft: "auto", marginRight: "auto" }}>
+                        <Column style={styles.column}>
+                            {pokemon.abilities.map((ability, index) => (
+                                <Row key={index} style={styles.row}>
+                                    <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
+                                        {capitalizeFirstLetter(ability.ability.name)}
+                                    </ThemedText>
+                                    <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
+                                        {ability.is_hidden ? "hidden" : "not hidden"}
                                     </ThemedText>
                                 </Row>
                             ))}

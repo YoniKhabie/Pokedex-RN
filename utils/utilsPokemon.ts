@@ -5,6 +5,13 @@ export class UtilitiesPokemon {
         return move.move.name;
     }
 
+    public static GetAllMovesName(moves: Mfe[]) {
+        const arr = [];
+        moves.map((move) => {
+            arr.push(move.move.name);
+        });
+    }
+
     public static GetMoveLv(move: Mfe) {
         return move.version_group_details[0].level_learned_at;
     }
