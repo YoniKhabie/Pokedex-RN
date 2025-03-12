@@ -1,3 +1,4 @@
+import CustomModal from "@/components/Modal";
 import PokemonType from "@/components/PokemonType";
 import { Column, Row } from "@/components/Table";
 import { ThemedText } from "@/components/ThemedText";
@@ -15,6 +16,8 @@ import { usePokemonContext } from "../context/PokemonContext";
 const PokemonScreen: React.FC = () => {
     const [input, setInput] = useState<string>("");
     const { pokemon, loading, setName } = usePokemonContext();
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [ability, setAbility] = useState<string>("");
 
     const showtoast = (message: string) => {
         Toast.show({
@@ -29,6 +32,15 @@ const PokemonScreen: React.FC = () => {
             return;
         }
         setName(input.toLowerCase().replace(/\s/g, ""));
+    };
+
+    const onModalClose = () => {
+        setIsModalVisible(false);
+    };
+
+    const onModalOpen = (ability: string) => {
+        setIsModalVisible(true);
+        setAbility(ability);
     };
 
     if (loading) {
@@ -117,21 +129,33 @@ const PokemonScreen: React.FC = () => {
                             ))}
                         </Column>
                     </ThemedView>
+
                     <ThemedText style={[styles.title, { marginTop: 30 }]}>Abilities</ThemedText>
                     <ThemedView style={{ marginLeft: "auto", marginRight: "auto" }}>
                         <Column style={styles.column}>
                             {pokemon.abilities.map((ability, index) => (
-                                <Row key={index} style={styles.row}>
-                                    <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
-                                        {capitalizeFirstLetter(ability.ability.name)}
-                                    </ThemedText>
-                                    <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
-                                        {ability.is_hidden ? "hidden" : "not hidden"}
-                                    </ThemedText>
-                                </Row>
+                                <TouchableOpacity key={index} onPress={() => onModalOpen(ability.ability.name)}>
+                                    <Row style={styles.row}>
+                                        <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
+                                            {capitalizeFirstLetter(ability.ability.name)}
+                                        </ThemedText>
+                                        <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
+                                            {ability.is_hidden ? "hidden" : "not hidden"}
+                                        </ThemedText>
+                                    </Row>
+                                </TouchableOpacity>
                             ))}
                         </Column>
                     </ThemedView>
+                    {isModalVisible ? (
+                        <CustomModal title="Ability Details" onClose={onModalClose} isVisible={isModalVisible}>
+                            <ThemedView style={{ backgroundColor: "red" }}>
+                                <ThemedText>{ability}</ThemedText>
+                            </ThemedView>
+                        </CustomModal>
+                    ) : (
+                        <></>
+                    )}
                 </ThemedView>
             </ScrollView>
         </GestureHandlerRootView>
