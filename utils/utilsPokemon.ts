@@ -1,6 +1,10 @@
+import { POKEMON_CACHE_KEY } from "@/api/apiPokedex";
+import { EffectEntry } from "@/models/modalAbility";
 import { Mfe, Stat } from "@/models/modalPokemon";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export class UtilitiesPokemon {
+    
     public static GetMoveName(move: Mfe) {
         return move.move.name;
     }
@@ -16,10 +20,15 @@ export class UtilitiesPokemon {
         return move.version_group_details[0].level_learned_at;
     }
 
-    public static SortMoves(moves: Mfe[]) {
-        return moves.sort((a, b) => this.GetMoveLv(a) - this.GetMoveLv(b));
+    public static SortMovesDesc(moves: Mfe[]) {
+        return moves.sort((a, b) => this.GetMoveLv(b) - this.GetMoveLv(a));
     }
     public static GetTotalPower(stats: Stat[]) {
         return stats.reduce((acc, num) => acc + num.base_stat, 0);
     }
+    public static getAbilityDescription(effectEntries: EffectEntry[]) {
+        const entry = effectEntries.find((effect) => effect.language.name === "en");
+        return entry ? entry.short_effect : ""; // Return found description or empty string
+    }
+
 }

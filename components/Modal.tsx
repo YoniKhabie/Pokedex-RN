@@ -36,7 +36,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ isVisible, title, children, o
 
 const styles = StyleSheet.create({
     modalContent: {
-        height: "33%",
+        height: "70%",
         width: "100%",
         borderTopRightRadius: 18,
         borderTopLeftRadius: 18,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     titleContainer: {
-        height: "16%",
+        height: "9%",
         backgroundColor: "#D3D3D3",
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,

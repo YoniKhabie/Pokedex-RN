@@ -34,7 +34,7 @@ const MovesTable: React.FC = () => {
                             Move Level
                         </ThemedText>
                     </Row>
-                    {UtilitiesPokemon.SortMoves(pokemon.moves).map((move, index) => (
+                    {UtilitiesPokemon.SortMovesDesc(pokemon.moves).map((move, index) => (
                         <Row key={index} style={styles.row}>
                             <ThemedText style={styles.box} numberOfLines={1}>
                                 {UtilitiesPokemon.GetMoveName(move)}

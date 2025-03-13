@@ -1,10 +1,12 @@
+import { deleteAllPokemonsFromCache } from "@/api/apiPokedex";
 import CustomModal from "@/components/Modal";
+import ModalContent from "@/components/modals/ModalContent";
 import PokemonType from "@/components/PokemonType";
 import { Column, Row } from "@/components/Table";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { StatColor, TotalPowerColor } from "@/constants/Colors";
-import { capitalizeFirstLetter } from "@/utils/helpers";
+import { capitalizeFirstLetter, eplaceHyphenWithSpace, replaceSpaceWithHyphen } from "@/utils/helpers";
 import { Link } from "expo-router";
 import * as React from "react";
 import { useState } from "react";
@@ -17,12 +19,12 @@ const PokemonScreen: React.FC = () => {
     const [input, setInput] = useState<string>("");
     const { pokemon, loading, setName } = usePokemonContext();
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [ability, setAbility] = useState<string>("");
+    const [ability, setAbility] = useState<string>("Synchronize");
 
-    const showtoast = (message: string) => {
+    const showtoast = (message: string, type = "Error", text1 = "Oops...") => {
         Toast.show({
-            type: "error",
-            text1: "Oops...",
+            type: type,
+            text1: text1,
             text2: message,
         });
     };
@@ -31,7 +33,7 @@ const PokemonScreen: React.FC = () => {
             showtoast("Please enter a pokemon");
             return;
         }
-        setName(input.toLowerCase().replace(/\s/g, ""));
+        setName(replaceSpaceWithHyphen(input).toLowerCase().replace(/\s/g, ""));
     };
 
     const onModalClose = () => {
@@ -43,6 +45,10 @@ const PokemonScreen: React.FC = () => {
         setAbility(ability);
     };
 
+    const handleDeletePokemons = async () => {
+        const isDeleted = await deleteAllPokemonsFromCache();
+        isDeleted ? showtoast("Deleted Cache", "success", "") : showtoast("Was not able to delete cache");
+    };
     if (loading) {
         return (
             <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -116,7 +122,7 @@ const PokemonScreen: React.FC = () => {
                             {pokemon.stats.map((stat, index) => (
                                 <Row key={index} style={styles.row}>
                                     <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
-                                        {capitalizeFirstLetter(stat.stat.name)}
+                                        {capitalizeFirstLetter(replaceSpaceWithHyphen(stat.stat.name))}
                                     </ThemedText>
                                     <ThemedText
                                         style={[styles.box, { color: StatColor(stat.base_stat) }]}
@@ -137,7 +143,7 @@ const PokemonScreen: React.FC = () => {
                                 <TouchableOpacity key={index} onPress={() => onModalOpen(ability.ability.name)}>
                                     <Row style={styles.row}>
                                         <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
-                                            {capitalizeFirstLetter(ability.ability.name)}
+                                            {eplaceHyphenWithSpace(capitalizeFirstLetter(ability.ability.name))}
                                         </ThemedText>
                                         <ThemedText style={styles.box} numberOfLines={1} adjustsFontSizeToFit>
                                             {ability.is_hidden ? "hidden" : "not hidden"}
@@ -147,11 +153,15 @@ const PokemonScreen: React.FC = () => {
                             ))}
                         </Column>
                     </ThemedView>
+                    <TouchableOpacity
+                        style={[styles.button, { marginVertical: 20 }]}
+                        onPress={() => handleDeletePokemons()}
+                    >
+                        <ThemedText style={styles.buttonText}>Clear Cache</ThemedText>
+                    </TouchableOpacity>
                     {isModalVisible ? (
                         <CustomModal title="Ability Details" onClose={onModalClose} isVisible={isModalVisible}>
-                            <ThemedView style={{ backgroundColor: "red" }}>
-                                <ThemedText>{ability}</ThemedText>
-                            </ThemedView>
+                            <ModalContent ability={ability} pokemon={pokemon} />
                         </CustomModal>
                     ) : (
                         <></>

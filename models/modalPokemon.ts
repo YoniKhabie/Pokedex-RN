@@ -1,3 +1,5 @@
+import { Pokemon } from "./modalAbility";
+
 export interface PokemonConfig {
     abilities: Ability[];
     base_experience: number;
@@ -10,6 +12,14 @@ export interface PokemonConfig {
     weight: number;
     img: string;
     total_power: number;
+    abilityInfo?: Map<string, AbilityInfo>;
+}
+
+export interface AbilityInfo {
+    ability_name: string;
+    description: string;
+    pokemons: Pokemon[];
+    id: number;
 }
 
 export interface Ability {
