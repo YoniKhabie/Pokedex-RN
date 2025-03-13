@@ -1,5 +1,5 @@
 import { getPokemonByName } from "@/api/apiPokedex"; // Replace with the actual service or API function
-import { PokemonConfig } from "@/models/modalPokemon";
+import { PokemonConfig } from "@/models/modelPokemon";
 import { useEffect, useState } from "react";
 
 export const usePokemon = (initialName: string) => {

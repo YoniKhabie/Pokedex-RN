@@ -1,4 +1,4 @@
-import { PokemonConfig } from "@/models/modalPokemon";
+import { PokemonConfig } from "@/models/modelPokemon";
 import { UtilitiesPokemon } from "@/utils/utilsPokemon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAbilityInfo } from "./apiAbility";

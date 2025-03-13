@@ -1,7 +1,6 @@
-import { usePokemon } from '@/hooks/usePokemon';
-import { PokemonConfig } from '@/models/modalPokemon';
-import React, { createContext, useContext, ReactNode } from 'react';
-
+import { usePokemon } from "@/hooks/usePokemon";
+import { PokemonConfig } from "@/models/modelPokemon";
+import React, { createContext, ReactNode, useContext } from "react";
 
 interface PokemonContextProps {
     pokemon: PokemonConfig | null;
@@ -12,21 +11,17 @@ interface PokemonContextProps {
 const PokemonContext = createContext<PokemonContextProps | undefined>(undefined);
 
 const PokemonProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const {pokemon, loading, setName } = usePokemon("mew");
+    const { pokemon, loading, setName } = usePokemon("mew");
 
-  return (
-    <PokemonContext.Provider value={{ pokemon, loading, setName }}>
-      {children}
-    </PokemonContext.Provider>
-  );
+    return <PokemonContext.Provider value={{ pokemon, loading, setName }}>{children}</PokemonContext.Provider>;
 };
 
 export const usePokemonContext = (): PokemonContextProps => {
-  const context = useContext(PokemonContext);
-  if (!context) {
-    throw new Error('usePokemonContext must be used within a PokemonProvider');
-  }
-  return context;
+    const context = useContext(PokemonContext);
+    if (!context) {
+        throw new Error("usePokemonContext must be used within a PokemonProvider");
+    }
+    return context;
 };
 
 export default PokemonProvider;

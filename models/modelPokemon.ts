@@ -1,4 +1,4 @@
-import { Pokemon } from "./modalAbility";
+import { Pokemon } from "./modelAbility";
 
 export interface PokemonConfig {
     abilities: Ability[];

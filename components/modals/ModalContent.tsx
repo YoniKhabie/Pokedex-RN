@@ -1,5 +1,5 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { PokemonConfig } from "@/models/modalPokemon";
+import { PokemonConfig } from "@/models/modelPokemon";
 import { capitalizeFirstLetter, eplaceHyphenWithSpace } from "@/utils/helpers";
 import React from "react";
 import { StyleSheet } from "react-native";

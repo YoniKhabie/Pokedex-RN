@@ -1,5 +1,5 @@
-import { AbilityConfig } from "@/models/modalAbility";
-import { AbilityInfo } from "@/models/modalPokemon";
+import { AbilityConfig } from "@/models/modelAbility";
+import { AbilityInfo } from "@/models/modelPokemon";
 import { UtilitiesPokemon } from "@/utils/utilsPokemon";
 
 export const getAbilityInfo = async (abilitiesArr: string[]) => {

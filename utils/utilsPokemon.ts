@@ -1,10 +1,7 @@
-import { POKEMON_CACHE_KEY } from "@/api/apiPokedex";
-import { EffectEntry } from "@/models/modalAbility";
-import { Mfe, Stat } from "@/models/modalPokemon";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { EffectEntry } from "@/models/modelAbility";
+import { Mfe, Stat } from "@/models/modelPokemon";
 
 export class UtilitiesPokemon {
-    
     public static GetMoveName(move: Mfe) {
         return move.move.name;
     }
@@ -30,5 +27,4 @@ export class UtilitiesPokemon {
         const entry = effectEntries.find((effect) => effect.language.name === "en");
         return entry ? entry.short_effect : ""; // Return found description or empty string
     }
-
 }
